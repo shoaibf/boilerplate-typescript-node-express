@@ -1,25 +1,18 @@
 import express from 'express'
-import { Routes } from './routes/index'
+import * as bodyParser from 'body-parser'
+import routes from './routes'
+import database from './database/connect'
 
 const app = express()
+const databaseuri = 'mongodb://localhost:27017/ts-node-express'
 const port = 3000
-const endpoints: any[] = []
 
-Routes.stack.forEach((stack, i) => {
-  if (stack.route) {
-    endpoints.push({
-      method: stack.route.stack[0].method.toUpperCase(),
-      path: stack.route.path
-    })
-  }
-})
 
-app.get('/', (req, res, next) => {
-  res.send({ message: 'welcome to typescript-node-express boilerplate API (v1.0.0)'})
-})
-app.use('/', Routes)
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-app.get('/endpoints', (req, res, next) => res.json(endpoints))
+database(databaseuri)
+routes(app)
 
 app.listen(port, err => {
   if (err) {

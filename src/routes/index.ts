@@ -1,16 +1,34 @@
-import { Router, Request, Response, NextFunction } from 'express'
+import { Application, Request, Response, NextFunction } from 'express'
+import User from './user'
+import Auth from './auth'
 
-const router: Router = Router()
+const endpoints: any [] = []
 
-router.get('/users', (req: Request, res: Response, next: NextFunction) => {
-  try {
-    res.send({
-      message: 'fetch users',
-      data: []
+User.stack.forEach((stack, i) => {
+  if (stack.route) {
+    endpoints.push({
+      method: stack.route.stack[0].method.toUpperCase(),
+      path: stack.route.path
     })
-  } catch (error) {
-    next(error)
   }
 })
 
-export const Routes: Router = router
+Auth.stack.forEach((stack, i) => {
+  if (stack.route) {
+    endpoints.push({
+      method: stack.route.stack[0].method.toUpperCase(),
+      path: stack.route.path
+    })
+  }
+})
+
+export default (app: Application) => {
+  app.get('/', (req: Request, res: Response, next: NextFunction) => {
+    res.send({ message: 'welcome to typescript-node-express boilerplate API (v1.0.0)'})
+  })
+
+  app.use('/', User)
+  app.use('/', Auth)
+
+  app.get('/endpoints', (req: Request, res: Response, next: NextFunction) => res.json(endpoints))
+}
