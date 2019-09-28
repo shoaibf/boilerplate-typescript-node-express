@@ -1,7 +1,7 @@
-import Auth from './auth.controller'
-import User from './user.controller'
+import auth from './auth.controller'
+import user from './user.controller'
 
 export default {
-  Auth,
-  User
+  auth,
+  user
 }

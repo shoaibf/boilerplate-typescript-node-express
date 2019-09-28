@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express'
 import User, {IUser} from './../database/models/user'
 
 interface ICreateUserInput {
-  email: IUser['email'];
-  firstName: IUser['firstName'];
-  lastName: IUser['lastName'];
+  email: IUser['email']
+  firstName: IUser['firstName']
+  lastName: IUser['lastName']
 }
 
 async function CreateUserInput({
@@ -26,7 +26,7 @@ async function CreateUserInput({
 }
 
 export default {
-  FetchUser: (req: Request, res: Response, next: NextFunction) => {
+  fetch: (req: Request, res: Response, next: NextFunction) => {
     try {
       res.json({
         message: 'fetch users',
@@ -37,7 +37,7 @@ export default {
     }
   },
 
-  CreateUser: async (req: Request, res: Response, next: NextFunction) => {
+  create: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await CreateUserInput({
         email: req.body.email,

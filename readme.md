@@ -18,8 +18,8 @@ To get the Node server running locally:
 
 ### Folders
 
-- `controllers` - Contains all the application controller
-- `routes` - Contains all the the route definitions for our API
+- `src/controllers` - Contains all the application controller
+- `src/routes` - Contains all the the route definitions for our API
 
 Run the project in development mode
 
@@ -33,6 +33,11 @@ To check the list of available api and can be accessed at
 
     http://localhost:3000/endpoints
 
-To compile all src/app.ts files to dist/app.js
+To compile all `src/app.ts` files to `dist/app.js`
 
     npm run build
+
+
+### License ###
+
+This example codebases is open-sourced software licensed under the MIT license

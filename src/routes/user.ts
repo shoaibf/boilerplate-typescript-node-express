@@ -1,9 +1,11 @@
-import Controller from './../controllers'
+import controller from './../controllers'
+import validate from './../utilities/validate'
+import validators from './../validators'
 import { Router } from 'express'
 
 const router: Router = Router()
-router.get('/users', Controller.User.FetchUser)
-router.post('/user', Controller.User.CreateUser)
+router.get('/users', controller.user.fetch)
+router.post('/user', validate(validators.user.create), controller.user.create)
 
 const User: Router = router
 

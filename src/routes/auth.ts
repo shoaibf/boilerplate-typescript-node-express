@@ -1,8 +1,8 @@
-import Controller from './../controllers'
+import controller from './../controllers'
 import { Router } from 'express'
 
 const router: Router = Router()
-router.post('/login', Controller.Auth.login)
+router.post('/login', controller.auth.login)
 
 const Auth: Router = router
 
