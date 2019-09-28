@@ -2,17 +2,13 @@ import { Application, Request, Response, NextFunction } from 'express'
 import ValidationsError from './Validation'
 
 interface IError extends Error {
-  status: number
+  status?: number
   message: string
 }
 
 export default (app: Application) => {
   app.use( (req, res, next) => {
-		interface BetterError extends Error {
-			status?: number
-		}
-
-		const err: BetterError = new Error('Not Found')
+		const err: IError = new Error('Not Found')
 		err.status = 404
 		next(err)
   })
