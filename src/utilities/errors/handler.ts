@@ -8,9 +8,9 @@ interface IError extends Error {
 
 export default (app: Application) => {
   app.use( (req, res, next) => {
-		const err: IError = new Error('Not Found')
-		err.status = 404
-		next(err)
+    const err: IError = new Error('Not Found')
+    err.status = 404
+    next(err)
   })
   
   app.use( (err: IError, req: Request, res: Response, next: NextFunction) => {

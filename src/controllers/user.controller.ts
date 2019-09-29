@@ -1,21 +1,24 @@
 import { Request, Response, NextFunction } from 'express'
-import User, {IUser} from './../database/models/user'
+import User, { IUser } from './../database/models/user'
 
 interface ICreateUserInput {
+  fullName: IUser['fullName']
   email: IUser['email']
-  firstName: IUser['firstName']
-  lastName: IUser['lastName']
+  username: IUser['username']
+  password: IUser['password']
 }
 
 async function CreateUserInput({
+  fullName,
   email,
-  firstName,
-  lastName
+  username,
+  password
 }: ICreateUserInput): Promise<IUser> {
   return User.create({
+    fullName,
     email,
-    firstName,
-    lastName
+    username,
+    password
   })
   .then((data: IUser) => {
     return data
@@ -26,11 +29,22 @@ async function CreateUserInput({
 }
 
 export default {
-  fetch: (req: Request, res: Response, next: NextFunction) => {
+  fetch: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const query:any = {}
+      
+      if (req.query.search) {
+        query['fullName'] = new RegExp(req.query.search, 'gi')
+      }
+
+      const sort:any = { 'createdAt': 1 }
+      const page = req.query.page ? parseInt(req.query.page) : 1
+      const limit = req.query.limit ? parseInt(req.query.limit) : 10
+      const options = { page, limit, sort }
+
       res.json({
         message: 'fetch users',
-        data: []
+        data: await User.paginate(query, options)
       })
     } catch (error) {
       next(error)
@@ -40,9 +54,10 @@ export default {
   create: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await CreateUserInput({
+        fullName: req.body.fullName,
         email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
+        username: req.body.username,
+        password: req.body.password
       })
   
       res.json({
