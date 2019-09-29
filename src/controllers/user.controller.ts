@@ -37,14 +37,16 @@ export default {
         query['fullName'] = new RegExp(req.query.search, 'gi')
       }
 
-      const sort:any = { 'createdAt': 1 }
+      const sort:any = { 'createdAt': -1 }
       const page = req.query.page ? parseInt(req.query.page) : 1
       const limit = req.query.limit ? parseInt(req.query.limit) : 10
       const options = { page, limit, sort }
+      const result = await User.paginate(query, options)
 
       res.json({
         message: 'fetch users',
-        data: await User.paginate(query, options)
+        ...
+        result
       })
     } catch (error) {
       next(error)

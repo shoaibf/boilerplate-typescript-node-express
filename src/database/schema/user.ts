@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
+import { mongoosePagination } from 'ts-mongoose-pagination'
 
 const user: Schema = new Schema({
   fullName: { type: String, required: true },
@@ -8,6 +8,6 @@ const user: Schema = new Schema({
   password: { type: String, required: true },
 }, { collection: 'user', timestamps: true })
 
-user.plugin(mongoosePaginate)
+user.plugin(mongoosePagination)
 
 export default user
